@@ -145,6 +145,12 @@ namespace ngram
             }
             return definitions;
         }
+        /*
+        * Method: print()
+        * Purpose: prints out the ngrams
+        * Parameters: List<string>
+        * Returns: none
+        */
         public void print(List<string> definitions)
         {
             foreach (string x in definitions)
@@ -152,6 +158,12 @@ namespace ngram
                 Console.WriteLine(x);
             }
         }
+        /*
+       * Method: writetofile()
+       * Purpose: writes ngram to debug.txt
+       * Parameters: List<string>
+       * Returns: none
+       */
         public void writetofile(List<string> definitions)
         {
             foreach (string x in definitions)
