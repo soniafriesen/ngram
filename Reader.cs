@@ -69,6 +69,12 @@ namespace ngram
             return context;
         }
 
+        /*
+        * Method: getNgrams()
+        * Purpose: get the token to make ngrams
+        * Parameters: List<string>, Dictionary<string,string>,Dictionary<string,string>
+        * Returns: List<string>
+        */
         public List<string> getNgrams(int token, string[] words)
         {
             List<string> ngrams = new List<string>();
@@ -98,7 +104,64 @@ namespace ngram
             }
            
         }
+        /*
+        * Method: get2levelngram()
+        * Purpose: to get 2 level ngram
+        * Parameters: List<string>, Dictionary<string,string>,Dictionary<string,string>
+        * Returns: List<string>
+        */
+        public List<string> get2levelngram(List<string> ngrams, Dictionary<string,string> nIndexs, Dictionary<string, string> nData)
+        {
+            List<string> definitions = new List<string>();
+            foreach (string n in ngrams)
+            {
+                string lowered = n.ToLower();
+                if (nIndexs.ContainsKey(lowered))
+                {
+                    string nounsdef = "";
+                    string value = nIndexs[lowered];
+                    //if value has more than one definition
+                    string[] keys = value.Split(',');
+                    if (keys.Length > 1) //mutliple keys/definitions for this noun
+                    {
+                        foreach (string k in keys)
+                        {
 
+                            nounsdef = $"{nounsdef};{nData[k]}";
+
+                        }
+                        nounsdef = nounsdef.Trim();
+                        nounsdef = nounsdef.Remove(0, 1); //removed inital ; 
+                        definitions.Add($"{n}, {nounsdef}");
+                    }
+                    else
+                    {
+                        nounsdef = nData[value];
+                        definitions.Add($"{n}, {nounsdef}");
+                    }
+                }
+                else
+                    definitions.Add($"{n},");
+            }
+            return definitions;
+        }
+        public void print(List<string> definitions)
+        {
+            foreach (string x in definitions)
+            {
+                Console.WriteLine(x);
+            }
+        }
+        public void writetofile(List<string> definitions)
+        {
+            foreach (string x in definitions)
+            {
+                using (StreamWriter writer = new StreamWriter("debug.txt", true))
+                {
+                    writer.WriteLine(x);
+                }
+            }            
+        }
 
         /*
          * Method: test()

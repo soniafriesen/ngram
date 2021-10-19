@@ -33,7 +33,7 @@ namespace ngram
             string testData = reader.readFile(data);
             List<string> nounsIndex = reader.readNouns("NounsIndex.txt"); // file is in bin/debug/net5.0
             List<string> nounsData = reader.readNouns("NounsData.txt"); // file is in bin/debug/net5.0
-            string debugFile = Path.Combine(Environment.CurrentDirectory, @"", "debug.txt");
+            //string debugFile = Path.Combine(Environment.CurrentDirectory, @"", "debug.txt");
 
             //test file reading
             //reader.test(testData, nounsData, nounsIndex);
@@ -45,11 +45,11 @@ namespace ngram
             string sentence = s[0];
             Console.WriteLine("\n");
             Console.WriteLine(sentence);
-            using(StreamWriter writer = new StreamWriter(debugFile, true))
+            using(StreamWriter writer = new StreamWriter("debug.txt", false))
             {
                 writer.WriteLine(testData);               
             }
-            using(StreamWriter writer = new StreamWriter(debugFile, true))
+            using(StreamWriter writer = new StreamWriter("debug.txt", true))
             {
                 writer.WriteLine();
                 writer.WriteLine(sentence);                
@@ -68,7 +68,7 @@ namespace ngram
             //n-gram level 2 process
             Console.WriteLine();
             Console.WriteLine("2 level n-gram");
-            using (StreamWriter writer = new StreamWriter(debugFile, true))
+            using (StreamWriter writer = new StreamWriter("debug.txt", true))
             {
                 writer.WriteLine();
                 writer.WriteLine("2 level n-gram");
@@ -77,49 +77,18 @@ namespace ngram
             Console.WriteLine();
             string[] words = sentence.Split(); //string of every sentence 
             List<string> ngrams = reader.getNgrams(2,words);
-            List<string> definitions = new List<string>();
 
             //searching for the indexs and definitions if the word has any
-            foreach(string n in ngrams)
-            {
-                string lowered = n.ToLower();              
-               if(nIndexs.ContainsKey(lowered))
-               {
-                    string nounsdef = "";
-                    string value = nIndexs[lowered];
-                    //if value has more than one definition
-                    string[] keys = value.Split(',');
-                    if(keys.Length > 1) //mutliple keys/definitions for this noun
-                    {
-                        foreach(string k in keys)
-                        {
-                          
-                            nounsdef = $"{nData[k]};{nounsdef}";
-                            
-                        }
-                        definitions.Add($"{n}, {nounsdef}");
-                    }
-                    else
-                    {
-                        nounsdef = nData[value];
-                        definitions.Add($"{n}, {nounsdef}");   
-                    }                                             
-               }
-               else
-                    definitions.Add($"{n},");
-                           
+            List<string> definitions = reader.get2levelngram(ngrams, nIndexs, nData);
 
-            }
-            foreach(string x in definitions)
-            {
-                Console.WriteLine(x);
-                using (StreamWriter writer = new StreamWriter(debugFile, true))
-                {
-                    writer.WriteLine(x);
-                }
-            }
+            reader.print(definitions); //print to console
+            reader.writetofile(definitions); //write to debug.txt
+
+            //n-gram level 3 process
+
+
             Console.WriteLine("\n");
-            Console.WriteLine("thanks for using N-gram extractor by Roberto Davies-Amaral and Sonia Friesen");
+            Console.WriteLine("Thanks for using N-gram Extractor by Roberto Davies-Amaral and Sonia Friesen");
             Environment.Exit(0); //close the application
         }
     }
