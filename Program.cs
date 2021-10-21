@@ -30,7 +30,10 @@ namespace ngram
             }
             // determine textdata, get  NounsData.txt and NounsIndex.txt into dictionaries
             string data = args[0]; //filename
+
+                    
             string testData = reader.readFile(data);
+            string newData = testData.Replace(".","");
             List<string> nounsIndex = reader.readNouns("NounsIndex.txt"); // file is in bin/debug/net5.0
             List<string> nounsData = reader.readNouns("NounsData.txt"); // file is in bin/debug/net5.0
             //string debugFile = Path.Combine(Environment.CurrentDirectory, @"", "debug.txt");
@@ -44,7 +47,7 @@ namespace ngram
             //string[] s = testData.Split(".");
             //string sentence = s[0];
             Console.WriteLine("\n");
-            Console.WriteLine(testData);
+            Console.WriteLine(newData);
             using(StreamWriter writer = new StreamWriter("debug.txt", false))
             {
                 writer.WriteLine(testData);               
@@ -52,7 +55,7 @@ namespace ngram
             using(StreamWriter writer = new StreamWriter("debug.txt", true))
             {
                 writer.WriteLine();
-                writer.WriteLine(testData);                
+                writer.WriteLine(newData);                
             }
 
             //convert lists into dictionaries
@@ -75,7 +78,7 @@ namespace ngram
                 writer.WriteLine();
             }
             Console.WriteLine();
-            string[] words = testData.Split(); //string of every sentence 
+            string[] words = newData.Split(); //string of every sentence 
             List<string> ngrams = reader.turnIntoNgram(2,words);
 
             //searching for the indexs and definitions if the word has any
@@ -100,8 +103,15 @@ namespace ngram
             reader.print(definitions);
             reader.writetofile(definitions);
 
+          
             Console.WriteLine("\n");
             Console.WriteLine("Thanks for using N-gram Extractor by Roberto Davies-Amaral and Sonia Friesen");
+            using (StreamWriter writer = new StreamWriter("debug.txt", true))
+            {
+                writer.WriteLine();
+                writer.WriteLine("Thanks for using N-gram Extractor by Roberto Davies-Amaral and Sonia Friesen");
+                writer.WriteLine();
+            }
             Environment.Exit(0); //close the application
         }
     }

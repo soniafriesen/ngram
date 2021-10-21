@@ -7,6 +7,12 @@ using System.IO;
 
 namespace ngram
 {
+    /* 
+     * Project: Reader Class for N-gram Extractor- INFO-3142 Emerging Technology
+     * Purpose: Class to do main ngram work keeping the program.cs clean and organized 
+     * Date: Due Oct. 28th 2021
+     * Coders: Roberto Davies-Amaral & Sonia Friesen  
+     */
     public class Reader
     {
         /*
