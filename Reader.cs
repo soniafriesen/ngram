@@ -185,12 +185,14 @@ namespace ngram
 
                         }
                         nounsdef = nounsdef.Trim();
-                        nounsdef = nounsdef.Remove(0, 1); //removed inital ; 
+                        nounsdef = nounsdef.Remove(0,1); //removed inital ; 
+                        nounsdef = nounsdef.Replace(";", " <<and>> ");
                         definitions.Add($"{n}, {nounsdef}");
                     }
                     else
                     {
                         nounsdef = nData[value];
+                        nounsdef =  nounsdef.Replace(";", " <<and>>");
                         definitions.Add($"{n}, {nounsdef}");
                     }
                 }
