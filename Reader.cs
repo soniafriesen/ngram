@@ -129,6 +129,31 @@ namespace ngram
                         }
                         return ngrams;
                     }
+                case 4:
+                    {
+                        int[] variables = { 1, 2,3 };
+                        for (int i = 0; i < words.Length - 1; i++)
+                        {
+                            if (variables[2] == words.Length - 1)
+                            {
+                                if (i == words.Length - 3)
+                                    break;
+                                variables[2] = words.Length - 1;
+                                variables[1] = words.Length - 2;
+                                variables[0] = words.Length - 3;
+                                ngrams.Add($"{words[i]}_{words[variables[0]]}_{words[variables[1]]}_{words[variables[2]]}");
+                            }
+                            else
+                            {
+                                ngrams.Add($"{words[i]}_{words[variables[0]]}_{words[variables[1]]}_{words[variables[2]]}");
+                                variables[0]++;
+                                variables[1]++;
+                                variables[2]++;
+
+                            }
+                        }
+                        return ngrams;
+                    }
                 default: return null;
             }
            

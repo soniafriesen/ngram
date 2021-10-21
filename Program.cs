@@ -103,7 +103,21 @@ namespace ngram
             reader.print(definitions);
             reader.writetofile(definitions);
 
-          
+            //4 level ngram
+            Console.WriteLine();
+            Console.WriteLine("4 level n-gram");
+            Console.WriteLine();
+            using (StreamWriter writer = new StreamWriter("debug.txt", true))
+            {
+                writer.WriteLine();
+                writer.WriteLine("4 level n-gram");
+                writer.WriteLine();
+            }
+            ngrams = reader.turnIntoNgram(4, words);
+            definitions = reader.getngram(ngrams, nIndexs, nData);
+            reader.print(definitions);
+            reader.writetofile(definitions);
+
             Console.WriteLine("\n");
             Console.WriteLine("Thanks for using N-gram Extractor by Roberto Davies-Amaral and Sonia Friesen");
             using (StreamWriter writer = new StreamWriter("debug.txt", true))
