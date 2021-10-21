@@ -70,12 +70,12 @@ namespace ngram
         }
 
         /*
-        * Method: getNgrams()
+        * Method: turnIntoNgram()
         * Purpose: get the token to make ngrams
         * Parameters: List<string>, Dictionary<string,string>,Dictionary<string,string>
         * Returns: List<string>
         */
-        public List<string> getNgrams(int token, string[] words)
+        public List<string> turnIntoNgram(int token, string[] words)
         {
             List<string> ngrams = new List<string>();
 
@@ -100,58 +100,73 @@ namespace ngram
                         }
                         return ngrams;
                     }
+                case 3:
+                    {
+                        int[] variables = { 1, 2 };
+                        for (int i = 0; i < words.Length - 1; i++)
+                        {
+                            if (variables[1] == words.Length - 1)
+                            {
+                                if (i == words.Length - 2)
+                                    break;
+                                variables[1] = words.Length - 1;
+                                variables[0] = words.Length - 2;
+                                ngrams.Add($"{words[i]}_{words[variables[0]]}_{words[variables[1]]}");                                
+                            }
+                            else
+                            {
+                                ngrams.Add($"{words[i]}_{words[variables[0]]}_{words[variables[1]]}");
+                                variables[0]++;
+                                variables[1]++;
+
+                            }
+                        }
+                        return ngrams;
+                    }
                 default: return null;
             }
            
         }
         /*
-        * Method: get2levelngram()
-        * Purpose: to get 2 level ngram
+        * Method: getngram()
+        * Purpose: to get 2,3,4 level ngram based on token
         * Parameters: List<string>, Dictionary<string,string>,Dictionary<string,string>
         * Returns: List<string>
         */
-        public List<string> getngram(int token, List<string> ngrams, Dictionary<string,string> nIndexs, Dictionary<string, string> nData)
+        public List<string> getngram(List<string> ngrams, Dictionary<string,string> nIndexs, Dictionary<string, string> nData)
         {
             List<string> definitions = new List<string>();
-            switch (token)
+            foreach (string n in ngrams)
             {
-                case 2:
+                string lowered = n.ToLower();
+                if (nIndexs.ContainsKey(lowered))
+                {
+                    string nounsdef = "";
+                    string value = nIndexs[lowered];
+                    //if value has more than one definition
+                    string[] keys = value.Split(',');
+                    if (keys.Length > 1) //mutliple keys/definitions for this noun
                     {
-                        foreach (string n in ngrams)
+                        foreach (string k in keys)
                         {
-                            string lowered = n.ToLower();
-                            if (nIndexs.ContainsKey(lowered))
-                            {
-                                string nounsdef = "";
-                                string value = nIndexs[lowered];
-                                //if value has more than one definition
-                                string[] keys = value.Split(',');
-                                if (keys.Length > 1) //mutliple keys/definitions for this noun
-                                {
-                                    foreach (string k in keys)
-                                    {
 
-                                        nounsdef = $"{nounsdef};{nData[k]}";
+                            nounsdef = $"{nounsdef};{nData[k]}";
 
-                                    }
-                                    nounsdef = nounsdef.Trim();
-                                    nounsdef = nounsdef.Remove(0, 1); //removed inital ; 
-                                    definitions.Add($"{n}, {nounsdef}");
-                                }
-                                else
-                                {
-                                    nounsdef = nData[value];
-                                    definitions.Add($"{n}, {nounsdef}");
-                                }
-                            }
-                            else
-                                definitions.Add($"{n},");
                         }
-                        return definitions;
+                        nounsdef = nounsdef.Trim();
+                        nounsdef = nounsdef.Remove(0, 1); //removed inital ; 
+                        definitions.Add($"{n}, {nounsdef}");
                     }
-                 default: return null;
-            }        
-           
+                    else
+                    {
+                        nounsdef = nData[value];
+                        definitions.Add($"{n}, {nounsdef}");
+                    }
+                }
+                else
+                    definitions.Add($"{n},");
+            }
+            return definitions;
         }
         /*
         * Method: print()
