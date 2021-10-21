@@ -2,7 +2,7 @@
   "profiles": {
     "ngram": {
       "commandName": "Project",
-      "commandLineArgs": "\"test_text4.txt\""
+      "commandLineArgs": "\"test_text7.txt\""
     }
   }
 }
