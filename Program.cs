@@ -79,7 +79,7 @@ namespace ngram
             List<string> ngrams = reader.getNgrams(2,words);
 
             //searching for the indexs and definitions if the word has any
-            List<string> definitions = reader.get2levelngram(ngrams, nIndexs, nData);
+            List<string> definitions = reader.getngram(2,ngrams, nIndexs, nData);
 
             reader.print(definitions); //print to console
             reader.writetofile(definitions); //write to debug.txt
