@@ -160,9 +160,9 @@ namespace ngram
         }
         /*
         * Method: getngram()
-        * Purpose: to get 2,3,4 level ngram based on token
+        * Purpose: to search defitions on the NounsIndexs and NounsData
         * Parameters: List<string>, Dictionary<string,string>,Dictionary<string,string>
-        * Returns: List<string>
+        * Returns: List<string>, final output format
         */
         public List<string> getngram(List<string> ngrams, Dictionary<string,string> nIndexs, Dictionary<string, string> nData)
         {
@@ -186,7 +186,7 @@ namespace ngram
                         }
                         nounsdef = nounsdef.Trim();
                         nounsdef = nounsdef.Remove(0,1); //removed inital ; 
-                        nounsdef = nounsdef.Replace(";", " <<and>> ");
+                        nounsdef = nounsdef.Replace(";", " <<and>> "); //replaces the ';' to <<and>> for fit example format
                         definitions.Add($"{n}, {nounsdef}");
                     }
                     else

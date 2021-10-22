@@ -55,15 +55,16 @@ namespace ngram
                 {
                     break;
                 }
+                string literal = sentence.Trim();
                 //newData = testData.Replace(".", "");
                 using (StreamWriter writer = new StreamWriter("debug.txt", true))
                 {
                     writer.WriteLine();
-                    writer.WriteLine(sentence);
+                    writer.WriteLine(literal);
                     Console.WriteLine();
                 }
                 Console.WriteLine();
-                Console.WriteLine(sentence);
+                Console.WriteLine(literal);
                 Console.WriteLine();
                 //process the n-gram levels on each sentence
                 //n-gram 2,3,4 process
@@ -77,8 +78,7 @@ namespace ngram
                     writer.WriteLine("2 level n-gram");
                     writer.WriteLine();
                 }
-                Console.WriteLine();
-                string literal = sentence.Trim();
+                Console.WriteLine();             
                 string[] words = literal.Split(); //string of every sentence 
                 List<string> ngrams = reader.turnIntoNgram(2, words);
 
