@@ -55,7 +55,7 @@ namespace ngram
        }
 
         /*
-        * Method:readNouns
+        * Method:convertToDictionary
         * Purpose: reads the nouns files into a list
         * Parameters: file (string)
         * Returns: List<string> (context of the file line by line)
