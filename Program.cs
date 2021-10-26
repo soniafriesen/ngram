@@ -28,6 +28,12 @@ namespace ngram
                 Console.Write("Not enough arguments");
                 Environment.Exit(1); //close the application
             }
+            //check command line arguments
+            if (args.Length > 1)
+            {
+                Console.Write("Too many arguments");
+                Environment.Exit(1); //close the application
+            }
             // determine textdata, get  NounsData.txt and NounsIndex.txt into dictionaries
             string data = args[0]; //filename
 
@@ -66,58 +72,28 @@ namespace ngram
                 Console.WriteLine();
                 Console.WriteLine(literal);
                 Console.WriteLine();
+
                 //process the n-gram levels on each sentence
                 //n-gram 2,3,4 process
-
-                //n-gram level 2 process
-                Console.WriteLine();
-                Console.WriteLine("2 level n-gram");
-                using (StreamWriter writer = new StreamWriter("debug.txt", true))
+                for(int i = 2; i < 5; i++)
                 {
-                    writer.WriteLine();
-                    writer.WriteLine("2 level n-gram");
-                    writer.WriteLine();
-                }
-                Console.WriteLine();             
-                string[] words = literal.Split(); //string of every sentence 
-                List<string> ngrams = reader.turnIntoNgram(2, words);
+                    Console.WriteLine();
+                    Console.WriteLine($"{i} level n-gram");
+                    using (StreamWriter writer = new StreamWriter("debug.txt", true))
+                    {
+                        writer.WriteLine();
+                        writer.WriteLine($"{i} level n-gram");
+                        writer.WriteLine();
+                    }
+                    Console.WriteLine();
+                    string[] words = literal.Split(); //string of every sentence 
+                    List<string> ngrams = reader.turnIntoNgram(i, words);
+                    List<string> definitions = reader.getngram(ngrams, nIndexs, nData);
 
-                //searching for the indexs and definitions if the word has any
-                List<string> definitions = reader.getngram(ngrams, nIndexs, nData);
-
-                reader.print(definitions); //print to console
-                reader.writetofile(definitions); //write to debug.txt
-                Console.WriteLine();
-
-                //n-gram level 3 process
-
-                Console.WriteLine("3 level n-gram");
-                Console.WriteLine();
-                using (StreamWriter writer = new StreamWriter("debug.txt", true))
-                {
-                    writer.WriteLine();
-                    writer.WriteLine("3 level n-gram");
-                    writer.WriteLine();
-                }
-                ngrams = reader.turnIntoNgram(3, words);
-                definitions = reader.getngram(ngrams, nIndexs, nData);
-                reader.print(definitions);
-                reader.writetofile(definitions);
-
-                //4 level ngram
-                Console.WriteLine();
-                Console.WriteLine("4 level n-gram");
-                Console.WriteLine();
-                using (StreamWriter writer = new StreamWriter("debug.txt", true))
-                {
-                    writer.WriteLine();
-                    writer.WriteLine("4 level n-gram");
-                    writer.WriteLine();
-                }
-                ngrams = reader.turnIntoNgram(4, words);
-                definitions = reader.getngram(ngrams, nIndexs, nData);
-                reader.print(definitions);
-                reader.writetofile(definitions);
+                    reader.print(definitions); //print to console
+                    reader.writetofile(definitions); //write to debug.txt
+                    Console.WriteLine();
+                }          
             }       
             Console.WriteLine("\n");
             Console.WriteLine("Thanks for using N-gram Extractor by Roberto Davies-Amaral and Sonia Friesen");
