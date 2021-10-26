@@ -75,6 +75,7 @@ namespace ngram
 
                 //process the n-gram levels on each sentence
                 //n-gram 2,3,4 process
+                /* Using a for loop here to reduce function calls and code*/
                 for(int i = 2; i < 5; i++)
                 {
                     Console.WriteLine();
